@@ -8,9 +8,9 @@ import Die from './components/Die'
 
 export default function App(){
   /**
-   * Challenge: Add conditional styling to the Die component so that if it's held (isHeld === true), its background color changes to a light green (#59E391)
+   * Challenge: Update the 'holdDice' function to flip the 'isHeld' property on the object in the array that was clicked, based on the 'id' prop passed into the function.
    * 
-   * Remember: currently the Die component has no way of knowing if it's "held" or not.
+   * Hint: as usual, there's > 1 way to accomplish this. I'll be using 'dice.map()' and checking for the 'id' of the die to determine which one to flip 'isHeld' on, but you can do whichever way makes way makes the most sense to you.
    */
 
   const [dice, setDice] = React.useState(allNewDice())
@@ -33,6 +33,13 @@ export default function App(){
   function rollDice(){
     setDice(allNewDice())
   }
+  function holdDice(id){
+    setDice(oldDice => oldDice.map(die => (
+      die.id === id ? {...die, isHeld:!die.isHeld} : die
+    )))
+
+  }
+
 
 
 
@@ -40,6 +47,7 @@ export default function App(){
     key={die.id} 
     value={die.value}
     isHeld={die.isHeld}
+    holdDice={() => holdDice(die.id)}
     />)
 
 
