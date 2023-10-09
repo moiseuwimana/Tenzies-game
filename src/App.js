@@ -9,17 +9,18 @@ import Die from './components/Die'
 
 export default function App(){
 /**
- * Challenge: Tie off loose ends!
- * 1. If tenzies is true, Change the button text to "New Game"
- * 2. If tenzies is true, use the "react-confetti" package to
- *    render the <Confetti /> component 🎉
- * 
- *    Hint: don't worry about the `height` and `width` props
- *    it mentions in the documentation.
+ * Challenge: Allow the user to play a new game when the button is clicked and the've already won
  */
 
   const [dice, setDice] = React.useState(allNewDice())
   const [tenzies, setTenzies] = React.useState(false)
+  const diceElements = dice.map(die => <Die 
+    key={die.id} 
+    value={die.value}
+    isHeld={die.isHeld}
+    holdDice={() => holdDice(die.id)}
+    />)
+
 
 
 
@@ -28,9 +29,10 @@ export default function App(){
     const allSameValue = dice.every(die => die.value === dice[0].value)
     if (allHeld && allSameValue){
       setTenzies(true);
-      console.log("You won!!!")
     }
   },[dice])
+
+
 
 
 
@@ -50,9 +52,15 @@ export default function App(){
       return newDice
   }
   function rollDice(){
-    setDice(prevDice => prevDice.map(die => 
+    const rollDice = () => setDice(prevDice => prevDice.map(die => 
       (die.isHeld ? die : generateNewDie())
       ))
+    if (tenzies){
+      setDice(allNewDice());
+      setTenzies(false)
+    } else {
+      rollDice()
+    }
   }
   function holdDice(id){
     setDice(oldDice => oldDice.map(die => (
@@ -60,16 +68,6 @@ export default function App(){
     )))
   }
 
-
-
-
-
-  const diceElements = dice.map(die => <Die 
-    key={die.id} 
-    value={die.value}
-    isHeld={die.isHeld}
-    holdDice={() => holdDice(die.id)}
-    />)
 
 
 
