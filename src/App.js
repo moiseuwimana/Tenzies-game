@@ -1,19 +1,22 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import {nanoid} from 'nanoid'
+import Confetti from 'react-confetti'
 
 import Die from './components/Die'
 
 
 
 export default function App(){
-  /**
-   * Challenge: Check the dice array for these winning conditions:
-   * 1. All dice are held, and
-   * 2. All dice have the same value
-   * 
-   * If both conditions are true, set 'tenzies' to true and log "You won!" to the console
-   */
+/**
+ * Challenge: Tie off loose ends!
+ * 1. If tenzies is true, Change the button text to "New Game"
+ * 2. If tenzies is true, use the "react-confetti" package to
+ *    render the <Confetti /> component 🎉
+ * 
+ *    Hint: don't worry about the `height` and `width` props
+ *    it mentions in the documentation.
+ */
 
   const [dice, setDice] = React.useState(allNewDice())
   const [tenzies, setTenzies] = React.useState(false)
@@ -72,12 +75,13 @@ export default function App(){
 
   return (
     <main>
+      {tenzies && <Confetti />}
       <h1 className='title' >Tenzies</h1>
       <p className='instructions'>Roll until all dice are the same. Click it at its current value between rolls.</p>
       <div className='dice-container'>
         {diceElements}
       </div>
-      <button className='roll-dice' onClick={rollDice}>Roll</button>
+      <button className='roll-dice' onClick={rollDice}>{tenzies ? 'New Game':'Roll'}</button>
 
     </main>
   )
